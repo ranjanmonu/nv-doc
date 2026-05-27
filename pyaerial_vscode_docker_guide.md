@@ -596,6 +596,14 @@ print('Built with CUDA:', tf.test.is_built_with_cuda())
 print('GPUs:', tf.config.list_physical_devices('GPU'))
 "
 
+# Inside cubb_rrk or pyaerial container
+pip uninstall tensorflow tensorflow-cpu tensorflow-cpu-aws -y
+
+# NVIDIA's aarch64 + CUDA TF wheel
+pip install --upgrade \
+    --extra-index-url https://developer.download.nvidia.com/compute/redist/ \
+    nvidia-tensorflow==1.15.5+nv22.12
+
 
 *Based on NVIDIA Aerial CUDA-Accelerated RAN official documentation, release 26-1.*
 *Last updated: May 2026*
