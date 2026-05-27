@@ -583,6 +583,19 @@ echo "CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"
 nvidia-smi
 
 ---
+# Pull NVIDIA's GH200-native TF container
+docker pull nvcr.io/nvidia/tensorflow:24.12-tf2-py3
+
+# Verify GPU visibility immediately
+docker run --rm --gpus all \
+    nvcr.io/nvidia/tensorflow:24.12-tf2-py3 \
+    python3 -c "
+import tensorflow as tf
+print('TF:', tf.__version__)
+print('Built with CUDA:', tf.test.is_built_with_cuda())
+print('GPUs:', tf.config.list_physical_devices('GPU'))
+"
+
 
 *Based on NVIDIA Aerial CUDA-Accelerated RAN official documentation, release 26-1.*
 *Last updated: May 2026*
