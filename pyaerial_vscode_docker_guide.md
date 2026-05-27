@@ -555,6 +555,33 @@ Once JupyterLab is running, you will find these ready-to-run notebooks under `py
 3. `example_neural_receiver.ipynb` — see how AI replaces classical algorithms
 4. `example_srs_tx_rx.ipynb` — understand SRS
 
+## Debugging steps
+
+# 1. TF version and GPU list
+python3 -c "
+import tensorflow as tf
+print('TF version:', tf.__version__)
+print('GPUs:', tf.config.list_physical_devices('GPU'))
+print('Built with CUDA:', tf.test.is_built_with_cuda())
+"
+
+# 2. CUDA libraries TF is actually finding
+python3 -c "
+from tensorflow.python.platform import build_info
+print(build_info.build_info)
+"
+
+# 3. What CUDA is installed in the container
+ldconfig -p | grep libcuda
+ldconfig -p | grep libcudart
+ls /usr/local/cuda/lib64/libcudart* 2>/dev/null || echo "No CUDA at /usr/local/cuda"
+
+# 4. CUDA visible devices env var
+echo "CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES"
+
+# 5. nvidia-smi from inside container
+nvidia-smi
+
 ---
 
 *Based on NVIDIA Aerial CUDA-Accelerated RAN official documentation, release 26-1.*
