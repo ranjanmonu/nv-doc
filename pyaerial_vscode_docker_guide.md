@@ -604,6 +604,20 @@ pip install --upgrade \
     --extra-index-url https://developer.download.nvidia.com/compute/redist/ \
     nvidia-tensorflow==1.15.5+nv22.12
 
+# Install NGC CLI
+wget -O ngccli.zip \
+    https://api.ngc.nvidia.com/v2/resources/nvidia/ngc-apps/ngc_cli/versions/3.41.4/files/ngccli_linux.zip
 
+unzip ngccli.zip
+chmod +x ngc-cli/ngc
+sudo mv ngc-cli/ngc /usr/local/bin/ngc
+
+# Configure with your API key
+ngc config set   # enter your API key when prompted
+
+# Pull the container
+ngc registry image pull \
+    nvcr.io/nvidia/tensorflow:24.12-tf2-py3
+    
 *Based on NVIDIA Aerial CUDA-Accelerated RAN official documentation, release 26-1.*
 *Last updated: May 2026*
